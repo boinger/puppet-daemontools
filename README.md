@@ -3,11 +3,11 @@
 * Install & manage daemontools
 * Add or remove daemons from the service directory
 
-* Notes:
-** Defaults to pulling a specific version directly from http://cr.yp.to/daemontools/.
+* Notes:<ul><li>Defaults to pulling a specific version directly from http://cr.yp.to/daemontools/.
 This isn't particularly ideal/best practice.
 You should fork this project and make it install a package from your locally hosted binary repo.
-** patches conf-cc (as required by Linux' errno.h bug: http://cr.yp.to/docs/unixport.html#errno)
+<li> This module patches conf-cc (as required by Linux' errno.h bug: http://cr.yp.to/docs/unixport.html#errno)
+</ul>
 
 ##Requirements##
 
