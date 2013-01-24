@@ -18,7 +18,7 @@ You should fork this project and make it install a package from your locally hos
 
 ###Basic (defaults to ensure => running):
 ```puppet
-class { 'daemontools': }
+class { 'daemontools::install': }
 daemontools::service{ "tinydns":
   source => ''
 }
@@ -26,7 +26,7 @@ daemontools::service{ "tinydns":
 
 ###Stop a service:
 ```puppet
-class { 'daemontools': }
+class { 'daemontools::install': }
 daemontools::service{ "tinydns":
   ensure => 'stopped'
 }
