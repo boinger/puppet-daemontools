@@ -3,6 +3,7 @@ define daemontools::service(
   $source,
   $ensure = 'running',
 ){
+  
   $my_ensure = $ensure ? {
     'running' => $source,
     'stopped' => 'absent',
