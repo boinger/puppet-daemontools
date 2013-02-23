@@ -22,9 +22,6 @@ class { 'daemontools::install': }
 daemontools::service{
   "tinydns":
     source => '/etc/tinydns';
-
-  "tinydns-log":
-    source => '/etc/tinydns/log';
 }
 ```
 
