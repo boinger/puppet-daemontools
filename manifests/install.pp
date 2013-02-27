@@ -16,23 +16,21 @@ class daemontools::install (
 
   ## Manual installation of daemontools
 
+  File {
+      owner  => root,
+      group  => root,
+      mode   => 1755,
+    }
+
   file {
     '/package':
-      ensure => directory,
-      owner  => root,
-      group  => root,
-      mode   => 1755;
+      ensure => directory;
 
     '/service':
-      ensure => directory,
-      owner  => root,
-      group  => root,
-      mode   => 1755;
+      ensure => directory;
 
     "daemontools conf-cc":
       mode    => 644,
-      owner   => root,
-      group   => root,
       path    => "/package/admin/$pkg_name/src/conf-cc",
       source  => "puppet:///modules/daemontools/conf-cc",
       require => Exec['get daemontools'];
