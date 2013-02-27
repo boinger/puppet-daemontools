@@ -10,8 +10,14 @@ define daemontools::service(
      default  => fail("ensure => 'running' or 'stopped' only"),
   }
 
-  file{"/service/${name}":
+  file {"/service/${name}":
     ensure  => $my_ensure,
     require => [File['/service'], Exec['install daemontools']],
+  }
+
+  exec {
+    "restart ${name}":
+    refreshonly => true,
+    command     => "/usr/local/bin/svc -t /service/${name}";
   }
 }
