@@ -17,7 +17,7 @@ define daemontools::service(
 
   exec {
     "restart ${name}":
-    refreshonly => true,
-    command     => "/usr/local/bin/svc -t /service/${name}";
+      refreshonly => true,
+      command     => "/usr/local/bin/svc -t /service/${name}";
   }
 }
