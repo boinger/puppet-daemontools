@@ -7,7 +7,7 @@ define daemontools::setup(
   $group = 'daemon',
   $ensure = 'running',
 ){
-  
+
   $content = $ensure ? {  ## For the 'run' script
     'running' => $run,
     'stopped' => 'absent',
@@ -32,38 +32,47 @@ define daemontools::setup(
       owner   => $user;
     }
   }
-      
+
+  # XXX remove that pkill command today!
+  exec {
+    "restart ${name}":
+      path => "/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin:",
+      command => "svc -t /etc/${name}; sleep 1; pkill -P 1 'tail|lumberjack' ",
+      refreshonly => true;
+
+    "restart ${name} log":
+      path => "/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin:",
+      command => "svc -t /etc/${name}/log; sleep 1; pkill -P 1 'tail|lumberjack' ",
+      refreshonly => true;
+  }
+
   file {
     "/etc/${name}/log":
       ensure  => $dir,
       owner   => $user,
-      mode    => 2755,
-      require => File["/etc/${name}"];
-      
+      mode    => 2755;
+
     "/etc/${name}/env":
       ensure  => $dir,
       owner   => $user,
-      mode    => 2755,
-      require => File["/etc/${name}"];
-      
+      mode    => 2755;
+
     "/etc/${name}/supervise":
       ensure  => $dir,
       owner   => $user,
-      mode    => 2755,
-      require => File["/etc/${name}"];
-      
+      mode    => 2755;
+
     "/etc/${name}/run":
       content => $content,
       owner   => $user,
       mode    => 0755,
-      require => File["/etc/${name}"];
-      
+      notify  => Exec["restart ${name}"];
+
     "/etc/${name}/log/run":
       content => $log_content,
       owner   => $user,
       mode    => 0755,
-      require => File["/etc/${name}"];
+      notify  => Exec["restart ${name} log"];
 
   }
-
 }
