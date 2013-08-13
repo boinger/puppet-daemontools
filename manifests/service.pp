@@ -1,6 +1,6 @@
 # ensure can be running or stopped
 define daemontools::service(
-  $source,
+  $source = null,
   $ensure = 'running',
 ){
   
@@ -10,9 +10,17 @@ define daemontools::service(
      default  => fail("ensure => 'running' or 'stopped' only"),
   }
 
-  file {"/service/${name}":
-    ensure  => $my_ensure,
-    require => [File['/service'], Exec['install daemontools']],
+  if $my_ensure == absent {
+    exec {
+      "disable ${name}":
+        path    => ["/bin", "/usr/bin", "/usr/local/bin"],
+        command => "bash -c 'cd /service/${name} || true ; rm -f /service/${name} && svc -dx . ./log || true'";
+    }
+  } else {
+    file {"/service/${name}":
+      ensure  => $my_ensure,
+      require => [File['/service'], Exec['install daemontools']],
+    }
   }
 
   exec {
