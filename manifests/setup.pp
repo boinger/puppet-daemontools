@@ -33,16 +33,15 @@ define daemontools::setup(
     }
   }
 
-  # XXX remove that pkill command today!
   exec {
     "restart ${name}":
       path => "/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin:",
-      command => "svc -t /etc/${name}; sleep 1; pkill -P 1 'tail|lumberjack' ",
+      command => "svc -t /etc/${name} ",
       refreshonly => true;
 
     "restart ${name} log":
       path => "/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin:",
-      command => "svc -t /etc/${name}/log; sleep 1; pkill -P 1 'tail|lumberjack' ",
+      command => "svc -t /etc/${name}/log ",
       refreshonly => true;
   }
 
