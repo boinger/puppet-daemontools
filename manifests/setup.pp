@@ -35,13 +35,13 @@ define daemontools::setup(
 
   exec {
     "restart ${name}":
-      path => "/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin:",
-      command => "svc -t /etc/${name} ",
+      path        => "/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin:",
+      command     => "svc -t /etc/${name}",
       refreshonly => true;
 
     "restart ${name} log":
-      path => "/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin:",
-      command => "svc -t /etc/${name}/log ",
+      path        => "/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin:",
+      command     => "svc -t /etc/${name}/log",
       refreshonly => true;
   }
 
