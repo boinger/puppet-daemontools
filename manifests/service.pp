@@ -26,7 +26,7 @@ define daemontools::service(
     }
   }
 
-  if (!defined(Exec['restart ${name}'])){  ## This may already be defined via daemontools::setup, but if that wasn't used to construct the service dir, do it here.
+  if (!defined(Exec["restart ${name}"])){  ## This may already be defined via daemontools::setup, but if that wasn't used to construct the service dir, do it here.
     exec {
       "restart ${name}":
         command     => "svc -t /etc/${name}",
@@ -34,7 +34,7 @@ define daemontools::service(
     }
   }
 
-  if (!defined(Exec['restart ${name} log'])){  ## This may already be defined via daemontools::setup, but if that wasn't used to construct the service dir, do it here.
+  if (!defined(Exec["restart ${name} log"])){  ## This may already be defined via daemontools::setup, but if that wasn't used to construct the service dir, do it here.
     exec {
       "restart ${name} log":
         command     => "svc -t /etc/${name}/log",
