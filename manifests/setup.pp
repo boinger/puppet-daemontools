@@ -37,14 +37,20 @@ define daemontools::setup(
     }
   }
 
-  exec {
-    "restart ${name}":
-      command     => "svc -t /etc/${name}",
-      refreshonly => true;
+  if (!defined(Exec['restart ${name}'])){  ## This may already be defined via daemontools::service, but if that wasn't used to construct the service dir, do it here.
+    exec {
+      "restart ${name}":
+        command     => "svc -t /etc/${name}",
+        refreshonly => true;
+    }
+  }
 
-    "restart ${name} log":
-      command     => "svc -t /etc/${name}/log",
-      refreshonly => true;
+  if (!defined(Exec['restart ${name} log'])){  ## This may already be defined via daemontools::service, but if that wasn't used to construct the service dir, do it here.
+    exec {
+      "restart ${name} log":
+        command     => "svc -t /etc/${name}/log",
+        refreshonly => true;
+    }
   }
 
   file {
