@@ -2,6 +2,7 @@
 define daemontools::service(
   $source = null,
   $ensure = 'running',
+  $basedir = '/etc'
 ){
   
   $my_ensure = $ensure ? {
@@ -29,7 +30,7 @@ define daemontools::service(
   if (!defined(Exec["restart ${name}"])){  ## This may already be defined via daemontools::setup, but if that wasn't used to construct the service dir, do it here.
     exec {
       "restart ${name}":
-        command     => "svc -t /etc/${name}",
+        command     => "svc -t ${basedir}/${name}",
         refreshonly => true;
     }
   }
@@ -37,7 +38,7 @@ define daemontools::service(
   if (!defined(Exec["restart ${name} log"])){  ## This may already be defined via daemontools::setup, but if that wasn't used to construct the service dir, do it here.
     exec {
       "restart ${name} log":
-        command     => "svc -t /etc/${name}/log",
+        command     => "svc -t ${basedir}/${name}/log",
         refreshonly => true;
     }
   }
