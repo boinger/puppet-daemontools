@@ -16,7 +16,8 @@ define daemontools::setup(
     file {
     "${basedir}/${name}":
       ensure  => directory,
-      owner   => $user;
+      owner   => $user,
+      group   => $group;
     }
   }
 
@@ -44,17 +45,20 @@ define daemontools::setup(
     ]:
       ensure  => directory,
       owner   => $user,
+      group   => $group,
       mode    => 2755;
 
     "${basedir}/${name}/run":
       content => $run,
       owner   => $user,
+      group   => $group,
       mode    => 0755,
       notify  => Exec["restart ${name}"];
 
     "${basedir}/${name}/log/run":
       content => $logrun,
       owner   => $user,
+      group   => $group,
       mode    => 0755,
       notify  => Exec["restart ${name} log"];
 
