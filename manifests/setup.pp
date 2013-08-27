@@ -12,6 +12,10 @@ define daemontools::setup(
     path => ["/bin", "/usr/bin", "/usr/local/bin"],
   }
 
+  if ! defined(File[$basedir]) {
+    file {$basedir: ensure => directory;}
+  }
+
   if (!defined(File["${basedir}/${name}"])){  ## Often, the base ${basedir}/whatever is already defined.  No need to be bossy about it.
     file {
     "${basedir}/${name}":
