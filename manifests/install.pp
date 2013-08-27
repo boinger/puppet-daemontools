@@ -34,6 +34,16 @@ class daemontools::install (
       path    => "/package/admin/$pkg_name/src/conf-cc",
       source  => "puppet:///modules/daemontools/conf-cc",
       require => Exec['get daemontools'];
+
+    "/usr/bin/svc":
+      ensure => link,
+      target => "/usr/local/bin/svc",
+      require => Exec['get daemontools'];
+
+    "/usr/bin/svstat":
+      ensure => link,
+      target => "/usr/local/bin/svstat",
+      require => Exec['get daemontools'];
   }
 
   exec {
