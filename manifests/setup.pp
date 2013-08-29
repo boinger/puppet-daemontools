@@ -39,7 +39,6 @@ define daemontools::setup(
 
   file {
     [
-    "${basedir}/${name}/log",
     "${basedir}/${name}/env",
     "${basedir}/${name}/supervise",
     ]:
@@ -55,9 +54,15 @@ define daemontools::setup(
       mode    => 0755,
       notify  => Exec["restart ${name}"];
 
+    "${basedir}/${name}/log":
+      owner   => $loguser,
+      group   => $group,
+      mode    => 0755,
+      notify  => Exec["restart ${name} log"];
+    
     "${basedir}/${name}/log/run":
       content => $logrun,
-      owner   => $user,
+      owner   => $loguser,
       group   => $group,
       mode    => 0755,
       notify  => Exec["restart ${name} log"];
