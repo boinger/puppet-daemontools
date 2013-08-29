@@ -57,7 +57,7 @@ define daemontools::setup(
     "${basedir}/${name}/log":
       owner   => $loguser,
       group   => $group,
-      mode    => 0755,
+      mode    => 2755,
       notify  => Exec["restart ${name} log"];
     
     "${basedir}/${name}/log/run":
