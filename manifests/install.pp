@@ -23,16 +23,13 @@ class daemontools::install (
     }
 
   file {
-    '/package':
-      ensure => directory;
-
-    '/service':
+    [ '/package', '/service' ]:
       ensure => directory;
 
     "daemontools conf-cc":
       mode    => 644,
       path    => "/package/admin/$pkg_name/src/conf-cc",
-      source  => "puppet:///modules/daemontools/conf-cc",
+      source  => "puppet:///modules/${module_name}/conf-cc",
       require => Exec['get daemontools'];
 
     "/usr/bin/svc":
@@ -44,6 +41,10 @@ class daemontools::install (
       ensure => link,
       target => "/usr/local/bin/svstat",
       require => Exec['get daemontools'];
+
+    "/etc/init/svscanboot.conf":
+      source  => "puppet:///modules/${module_name}/etc/init/svscanboot.conf",
+      require => User['statsd'];
   }
 
   exec {
@@ -62,20 +63,8 @@ class daemontools::install (
           Exec['get daemontools'],
           ];
 
-    'setup inittab':
-      cwd     => "/package/admin/${pkg_name}",
-      command => "/command/setlock /etc/inittab package/run.inittab",
-      unless  => 'grep svscanboot /etc/inittab',
-      require => [
-          Exec['install daemontools'],
-          File['/service'],
-          ];
-  }
-
-  ## End manual installation
-
-  exec{'/usr/local/bin/svscanboot &':
-    unless  => 'pgrep svscan',
-    require => Exec['install daemontools'],
+    '/command/svscanboot &':
+      unless  => 'pgrep svscan',
+      require => Exec['install daemontools'],
   }
 }
