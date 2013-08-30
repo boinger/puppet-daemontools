@@ -55,6 +55,7 @@ define daemontools::setup(
       notify  => Exec["restart ${name}"];
 
     "${basedir}/${name}/log":
+      ensure  => directory,
       owner   => $loguser,
       group   => $group,
       mode    => 2755,
