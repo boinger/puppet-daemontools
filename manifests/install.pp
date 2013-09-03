@@ -43,8 +43,7 @@ class daemontools::install (
       require => Exec['get daemontools'];
 
     "/etc/init/svscanboot.conf":
-      source  => "puppet:///modules/${module_name}/etc/init/svscanboot.conf",
-      require => User['statsd'];
+      source  => "puppet:///modules/${module_name}/etc/init/svscanboot.conf";
   }
 
   exec {
