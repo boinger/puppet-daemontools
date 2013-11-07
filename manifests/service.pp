@@ -31,7 +31,8 @@ define daemontools::service(
     exec {
       "restart ${name}":
         command     => "svc -t ${basedir}/${name}",
-        refreshonly => true;
+        refreshonly => true,
+        require => Class['daemontools::install'];
     }
   }
 
@@ -39,7 +40,8 @@ define daemontools::service(
     exec {
       "restart ${name} log":
         command     => "svc -t ${basedir}/${name}/log",
-        refreshonly => true;
+        refreshonly => true,
+        require => Class['daemontools::install'];
     }
   }
 }
