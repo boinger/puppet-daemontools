@@ -26,7 +26,7 @@ define daemontools::setup(
       "restart ${name}":
         command     => "svc -t ${basedir}/${name}",
         refreshonly => true,
-        require => Class['daemontools::install'];
+        require     => Class['daemontools::install'];
     }
   }
 
@@ -34,7 +34,8 @@ define daemontools::setup(
     exec {
       "restart ${name} log":
         command     => "svc -t ${basedir}/${name}/log",
-        refreshonly => true;
+        refreshonly => true,
+        require     => Class['daemontools::install'];
     }
   }
 
